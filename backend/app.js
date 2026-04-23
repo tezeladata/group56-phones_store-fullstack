@@ -1,7 +1,9 @@
 import express from "express";
+import mongoose from "mongoose";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import phonesRouter from "./Router/phones.route.js";
+import globalErrorHandler from "./Controllers/error.controller.js";
 
 // create a server
 const app = express();
@@ -21,5 +23,12 @@ app.use("/api/status", (req, res, next) => {
 })
 app.use("/api/phones", phonesRouter);
 
-// start server
-app.listen(process.env.PORT, () => console.log(`Server is running on port ${process.env.PORT}`))
+app.use(globalErrorHandler)
+
+// connect to database and start server
+mongoose.connect(process.env.DB_CONNECTION)
+    .then(() => {
+        console.log("Connected to database");
+
+        app.listen(process.env.PORT, () => console.log(`Server started on port ${process.env.PORT}`))
+    })

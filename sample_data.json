@@ -1,7 +1,7 @@
 [
   {
     "id": "item_001",
-    "product_name": "apple-iphone-15-pro",
+    "productName": "apple-iphone-15-pro",
     "brand": "Apple",
     "model": "iPhone 15 Pro",
     "releaseYear": 2023,
@@ -22,7 +22,7 @@
   },
   {
     "id": "item_002",
-    "product_name": "samsung-galaxy-s24-ultra",
+    "productName": "samsung-galaxy-s24-ultra",
     "brand": "Samsung",
     "model": "Galaxy S24 Ultra",
     "releaseYear": 2024,
@@ -43,7 +43,7 @@
   },
   {
     "id": "item_003",
-    "product_name": "google-pixel-8-pro",
+    "productName": "google-pixel-8-pro",
     "brand": "Google",
     "model": "Pixel 8 Pro",
     "releaseYear": 2023,
@@ -64,7 +64,7 @@
   },
   {
     "id": "item_004",
-    "product_name": "oneplus-12",
+    "productName": "oneplus-12",
     "brand": "OnePlus",
     "model": "OnePlus 12",
     "releaseYear": 2024,
@@ -85,7 +85,7 @@
   },
   {
     "id": "item_005",
-    "product_name": "xiaomi-14-pro",
+    "productName": "xiaomi-14-pro",
     "brand": "Xiaomi",
     "model": "14 Pro",
     "releaseYear": 2024,

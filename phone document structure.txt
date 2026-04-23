@@ -1,14 +1,11 @@
 {
   "id": "item_001",
-  "slug": "product-slug",
-
+  "productName": "productName",
   "brand": "Brand Name",
   "model": "Model Name",
   "releaseYear": 2025,
-
   "price": 0,
   "currency": "USD",
-
   "specs": {
     "display": "string",
     "processor": "string",
@@ -17,11 +14,8 @@
     "camera": 0,
     "battery": 0
   },
-
   "options": ["Option1", "Option2"],
-
   "inStock": true,
   "rating": 0,
-
   "createdAt": "ISO_DATE"
 }
