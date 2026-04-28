@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import phonesRouter from "./Router/phones.route.js";
 import globalErrorHandler from "./Controllers/error.controller.js";
+import authRouter from "./Router/auth.route.js";
 
 // create a server
 const app = express();
@@ -22,6 +23,7 @@ app.use("/api/status", (req, res, next) => {
     next()
 })
 app.use("/api/phones", phonesRouter);
+app.use("/api/auth", authRouter);
 
 app.use(globalErrorHandler)
 

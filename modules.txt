@@ -1,0 +1,10 @@
+express
+morgan
+body-parser
+errorhandler
+dotenv
+mongoose
+
+რა უნდა გავიაროთ:
+
+    mongoDB-ის გავლის შემდეგ: bcrypt, multer, cloudinary, cookie-parser, cors, crypto, nodemailer, stripe, validator

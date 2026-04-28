@@ -45,15 +45,11 @@ export const editPhone = catchAsync(async (req, res, next) => {
 export const deletePhone = catchAsync(async (req, res, next) => {
     const {id} = req.params;
 
-    let allPhones = await ReadFile(process.env.PHONES_DB);
-    const foundPhone = allPhones.filter(item => item.id === id);
+    const deletedPhone = await Phones.findByIdAndDelete(id);
 
-    if (foundPhone.length === 0) {
-        return next(new AppError(`Phone not found with id: ${id}`, 404))
-    };
-
-    allPhones = allPhones.filter(item => item.id !== id);
-    await WriteFile(process.env.PHONES_DB, allPhones)
+    if (deletedPhone === null) {
+        return next(new AppError("Phone not found to delete!", 404))
+    }
 
     return res.status(204).json()
 })
