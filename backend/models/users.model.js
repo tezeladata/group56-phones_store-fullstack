@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import validator from "validator";
+import crypto from "crypto";
+import bcrypt from "bcrypt";
 
 const usersSchema = new mongoose.Schema(
     {
@@ -41,6 +43,15 @@ const usersSchema = new mongoose.Schema(
         timestamps: true
     }
 );
+usersSchema.pre("save", async function () {
+    if (!this.isModified("password")) return;
+    this.password = await bcrypt.hash(this.password, 10);
+});
+usersSchema.methods.createEmailVerificationToken = function() {
+    const code = crypto.randomBytes(12).toString("hex");
+    this.verificationCode = code;
+    return code;
+}
 
 const Users = mongoose.model("Users", usersSchema);
 
