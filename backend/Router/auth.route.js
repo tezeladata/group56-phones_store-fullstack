@@ -1,7 +1,7 @@
 import express from "express";
 
 // Controllers
-import { signUp, verify } from "../Controllers/auth.controller.js";
+import { login, signUp, verify } from "../Controllers/auth.controller.js";
 
 const authRouter = express.Router();
 
@@ -10,5 +10,8 @@ authRouter.post("/signUp", signUp);
 
 // verify
 authRouter.get("/verify/:code", verify);
+
+// log in
+authRouter.post("/logIn", login);
 
 export default authRouter;
