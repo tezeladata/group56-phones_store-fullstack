@@ -5,6 +5,7 @@ import morgan from "morgan";
 import phonesRouter from "./Router/phones.route.js";
 import globalErrorHandler from "./Controllers/error.controller.js";
 import authRouter from "./Router/auth.route.js";
+import cookieParser from "cookie-parser";
 
 // create a server
 const app = express();
@@ -16,6 +17,8 @@ dotenv.config();
 app.use(express.json());
 // data logger middleware
 app.use(morgan("dev"));
+// cookie parsing
+app.use(cookieParser());
 
 // Routers
 app.use("/api/status", (req, res, next) => {

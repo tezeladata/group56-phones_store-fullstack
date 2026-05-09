@@ -255,3 +255,14 @@ export const login = catchAsync(async (req, res, next) => {
 
     createSendToken(user, 200, res)
 });
+
+export const logout = catchAsync(async (req, res, next) => {
+    res.clearCookie("lg", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+        path: "/"
+    });
+
+    res.status(200).send();
+})
