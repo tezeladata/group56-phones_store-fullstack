@@ -70,7 +70,17 @@ const phonesSchema = new mongoose.Schema(
         rating: {
             type: Number,
             required: [true, "Rating is required"],
-        }
+        },
+        images: [{
+            public_id: {
+                type: String,
+                required: true
+            },
+            url: {
+                type: String,
+                required: true
+            }
+        }]
     },
     {
         timestamps: true

@@ -1,6 +1,7 @@
 // Utilities
 import AppError from "../Utils/AppError.js";
 import catchAsync from "../Utils/catchAsync.js";
+import { imageUpload } from "../Utils/image.js";
 import Phones from "../models/phones.model.js";
 
 export const getAllPhones = catchAsync(async (req, res, next) => {
@@ -26,7 +27,19 @@ export const getSinglePhone = catchAsync(async (req, res, next) => {
 });
 
 export const addPhone = catchAsync(async (req, res, next) => {
-    const newPhone = await Phones.create(req.body)
+    const body = req.body;
+    console.log(req.files)
+    const images = req.files.map(file => file.path);
+
+    const result = await imageUpload("phones", images);
+    const imageUrls = result.map(img => ({
+        url: img.secure_url,
+        public_id: img.public_id
+    }));
+
+    body.images = imageUrls;
+
+    const newPhone = await Phones.create(body);
 
     return res.status(200).json(newPhone);
 });

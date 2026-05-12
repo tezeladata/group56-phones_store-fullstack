@@ -4,7 +4,12 @@ body-parser
 errorhandler
 dotenv
 mongoose
+bcrypt
+cookie-parser
+crypto
+nodemailer
+validator
 
 რა უნდა გავიაროთ:
 
-    mongoDB-ის გავლის შემდეგ: bcrypt, multer, cloudinary, cookie-parser, cors, crypto, nodemailer, stripe, validator
+    mongoDB-ის გავლის შემდეგ: cloudinary, cors, stripe
