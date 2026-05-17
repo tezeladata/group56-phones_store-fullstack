@@ -1,7 +1,7 @@
 // Utilities
 import AppError from "../Utils/AppError.js";
 import catchAsync from "../Utils/catchAsync.js";
-import { imageUpload } from "../Utils/image.js";
+import { deleteImage, imageUpload } from "../Utils/image.js";
 import Phones from "../models/phones.model.js";
 
 export const getAllPhones = catchAsync(async (req, res, next) => {
@@ -28,7 +28,6 @@ export const getSinglePhone = catchAsync(async (req, res, next) => {
 
 export const addPhone = catchAsync(async (req, res, next) => {
     const body = req.body;
-    console.log(req.files)
     const images = req.files.map(file => file.path);
 
     const result = await imageUpload("phones", images);
@@ -57,12 +56,14 @@ export const editPhone = catchAsync(async (req, res, next) => {
 
 export const deletePhone = catchAsync(async (req, res, next) => {
     const {id} = req.params;
-
     const deletedPhone = await Phones.findByIdAndDelete(id);
 
     if (deletedPhone === null) {
         return next(new AppError("Phone not found to delete!", 404))
     }
+
+    const promises = deletedPhone.images.map(img => deleteImage(img.public_id))
+    const result = await Promise.all(promises);
 
     return res.status(204).json()
 })

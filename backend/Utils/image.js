@@ -1,4 +1,4 @@
-import cloudinary from "cloudinary";
+import cloudinary from "../config/cloudinary.js";
 
 const options = {
     use_filename: true,

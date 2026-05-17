@@ -9,7 +9,8 @@ cookie-parser
 crypto
 nodemailer
 validator
+cloudinary
 
 რა უნდა გავიაროთ:
 
-    mongoDB-ის გავლის შემდეგ: cloudinary, cors, stripe
+    mongoDB-ის გავლის შემდეგ: cors, stripe
