@@ -6,12 +6,19 @@ import phonesRouter from "./Router/phones.route.js";
 import globalErrorHandler from "./Controllers/error.controller.js";
 import authRouter from "./Router/auth.route.js";
 import cookieParser from "cookie-parser";
+import cors from "cors";
+
+// enable env variables
+dotenv.config();
 
 // create a server
 const app = express();
 
-// enable env variables
-dotenv.config();
+// cors configuration
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true
+}));
 
 // data parser middleware
 app.use(express.json());
