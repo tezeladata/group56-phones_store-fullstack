@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import {useNavigate} from "react-router";
 
 const AuthContext = createContext();
@@ -10,6 +10,24 @@ const API_URL = import.meta.env.VITE_API_URL + "/api";
 export const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const autoLogin = async () => {
+            const res = await fetch(`${API_URL}/auth/auto-login`, {
+                method: "POST",
+                credentials: "include"
+            });
+
+            const result = await res.json();
+
+            if (result.status !== "fail") {
+                setUser(result);
+                navigate("/phones")
+            }
+        }
+
+        autoLogin()
+    }, [])
 
     const signUser = async (formData) => {
         try {
@@ -56,10 +74,28 @@ export const AuthProvider = ({children}) => {
         } catch(err) {
             console.log(err);
         }
+    };
+
+    const logOutUser = async () => {
+        try {
+            const res = await fetch(`${API_URL}/auth/logout`, {
+                method: "GET",
+                credentials: "include"
+            });
+
+            if (!res.ok) {
+                throw new Error("User not logged out!")
+            };
+
+            setUser(null);
+            navigate("/logIn", {replace: true})
+        } catch(err) {
+            console.log(err);
+        }
     }
 
     return (
-        <AuthContext.Provider value={{ signUser, logUser }}>
+        <AuthContext.Provider value={{ signUser, logUser, logOutUser, user }}>
             {children}
         </AuthContext.Provider>
     )

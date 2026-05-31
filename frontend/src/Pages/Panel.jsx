@@ -1,54 +1,110 @@
 import { useEffect, useState } from "react";
 import { usePhones } from "../context/phones.context.jsx";
 import { FaStar } from "react-icons/fa";
+import { useAuth } from "../context/auth.context.jsx";
 
 const Panel = () => {
     const { phones, deletePhone, updatePhone, addPhone } = usePhones();
+    const {user} = useAuth();
     const [isEditing, setIsEditing] = useState(false);
-    const [formData, setFormData] = useState({});
-    const [specsObject, setSpecsObject] = useState({});
 
     const handleSubmit = async (e, id, option) => {
         const form = e.target;
 
-        const specs = {
-            display: form.display.value,
-            processor: form.processor.value,
-            ram: Number(form.ram.value),
-            storage: Number(form.storage.value),
-            camera: Number(form.camera.value),
-            battery: Number(form.battery.value),
-        };
+        if (option === "update") {
+            const data = {};
 
-        const data = {
-            productName: form.productName.value,
-            brand: form.brand.value,
-            model: form.model.value,
-            releaseYear: Number(form.releaseYear.value),
-            price: Number(form.price.value),
-            currency: form.currency.value,
+            if (form.productName.value)
+                data.productName = form.productName.value;
 
-            specs,
+            if (form.brand.value)
+                data.brand = form.brand.value;
 
-            options: form.options.value.split(" "),
+            if (form.model.value)
+                data.model = form.model.value;
 
-            inStock: form.inStock.value.toLowerCase() === "true",
+            if (form.releaseYear.value)
+                data.releaseYear = Number(form.releaseYear.value);
 
-            rating: Number(form.rating.value),
+            if (form.price.value)
+                data.price = Number(form.price.value);
 
-            images: form.images.value
-        };
+            if (form.currency.value)
+                data.currency = form.currency.value;
 
-        setFormData(data);
-        setIsEditing(false);
+            const specs = {};
 
-        if (option === "update") await updatePhone(id, formData)
-        else await addPhone(formData);
+            if (form.display.value)
+                specs.display = form.display.value;
+
+            if (form.processor.value)
+                specs.processor = form.processor.value;
+
+            if (form.ram.value)
+                specs.ram = Number(form.ram.value);
+
+            if (form.storage.value)
+                specs.storage = Number(form.storage.value);
+
+            if (form.camera.value)
+                specs.camera = Number(form.camera.value);
+
+            if (form.battery.value)
+                specs.battery = Number(form.battery.value);
+
+            if (Object.keys(specs).length > 0)
+                data.specs = specs;
+
+            if (form.options.value)
+                data.options = form.options.value.split(" ");
+
+            if (form.inStock.value)
+                data.inStock = form.inStock.value.toLowerCase() === "true";
+
+            if (form.rating.value)
+                data.rating = Number(form.rating.value);
+
+            await updatePhone(id, data);
+
+            setIsEditing(false);
+            return;
+        }
+
+        const formData = new FormData();
+
+        formData.append("productName", form.productName.value);
+        formData.append("brand", form.brand.value);
+        formData.append("model", form.model.value);
+        formData.append("releaseYear", form.releaseYear.value);
+        formData.append("price", form.price.value);
+        formData.append("currency", form.currency.value);
+
+        formData.append("display", form.display.value);
+        formData.append("processor", form.processor.value);
+        formData.append("ram", form.ram.value);
+        formData.append("storage", form.storage.value);
+        formData.append("camera", form.camera.value);
+        formData.append("battery", form.battery.value);
+
+        formData.append("options", form.options.value.split(" ").join(" "));
+        formData.append("inStock", form.inStock.value === "true");
+        formData.append("rating", form.rating.value);
+
+        // images
+        for (let i = 0; i < form.images.files.length; i++) {
+            formData.append("images", form.images.files[i]);
+        }
+
+        await addPhone(formData);
+
+        form.reset();
     };
 
-    useEffect(() => {
-        console.log(formData);
-    }, [formData]);
+    if (!user) {
+        return (
+            <h1>You should be logged in and your role should be admin to use this page</h1>
+        )
+    }
 
     return (
         <section>

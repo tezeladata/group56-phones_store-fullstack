@@ -46,7 +46,10 @@ export const PhonesProvider = ({children}) => {
             const res = await fetch(`${API_URL}/phones/${id}`, {
                 method: "PUT",
                 credentials: "include",
-                body: formData
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
             });
 
             const result = await res.json();
@@ -55,10 +58,11 @@ export const PhonesProvider = ({children}) => {
                 throw new Error(result.message);
             };
 
-            const index = phones.findIndex(phone => phone._id === result._id);
-            const copyPhones = [...phones];
-            copyPhones[index] = result;
-            setPhones(copyPhones);
+            setPhones(prev =>
+                prev.map(phone =>
+                    phone._id === result._id ? result : phone
+                )
+            );
         } catch(err) {
             console.log(err);
         }
@@ -68,8 +72,8 @@ export const PhonesProvider = ({children}) => {
         try {
             const res = await fetch(`${API_URL}/phones`, {
                 method: "POST",
-                body: formData,
-                credentials: "include"
+                credentials: "include",
+                body: formData
             });
 
             const result = await res.json();

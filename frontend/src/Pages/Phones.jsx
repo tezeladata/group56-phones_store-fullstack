@@ -1,8 +1,16 @@
+import { useAuth } from "../context/auth.context";
 import { usePhones } from "../context/phones.context";
 import { FaStar } from "react-icons/fa";
 
 const Phones = () => {
     const {phones} = usePhones();
+    const {user} = useAuth();
+
+    if (user?.role === "admin") {
+        return (
+            <h1>This page is not for admin, it is for default users</h1>
+        )
+    }
 
     return (
         <section>
